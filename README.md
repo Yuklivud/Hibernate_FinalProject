@@ -1,2 +1,2 @@
 # Hibernate_FinalProject
-Hibernate final project
+Java project with MySQL, Redis, Hibernate, Docker.

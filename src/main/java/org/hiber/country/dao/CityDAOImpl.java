@@ -5,6 +5,7 @@ import org.hiber.country.utils.HibernateUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -61,6 +62,25 @@ public class CityDAOImpl implements CityDAO {
     public List<City> findAll(int page, int size) {
         try(Session session = sessionFactory.openSession()){
             return session.createQuery("from City ", City.class).setFirstResult((page - 1) * size).setMaxResults(size).list();
+        }
+    }
+
+    public int getTotalCount() {
+        Transaction transaction = null;
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            transaction = session.beginTransaction(); // Начинаем транзакцию
+
+            Query<Long> query = session.createQuery("select count(c) from City c", Long.class);
+            int totalCount = Math.toIntExact(query.uniqueResult());
+
+            transaction.commit(); // Завершаем транзакцию
+            return totalCount;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback(); // Откатываем транзакцию в случае ошибки
+            }
+            throw e;
         }
     }
 }

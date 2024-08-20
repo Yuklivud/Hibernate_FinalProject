@@ -9,5 +9,5 @@ public interface CountryDAO {
     public Country findById(int id);
     public void update(Country city);
     public void delete(Country city);
-    public List<Country> findAll();
+    public List<Country> findAll(int page, int size);
 }

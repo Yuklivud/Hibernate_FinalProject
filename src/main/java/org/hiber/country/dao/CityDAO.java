@@ -9,5 +9,5 @@ public interface CityDAO {
     public City findById(int id);
     public void update(City city);
     public void delete(City city);
-    public List<City> findAll();
+    public List<City> findAll(int page, int size);
 }
